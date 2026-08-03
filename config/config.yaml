@@ -15,6 +15,10 @@ ammeters:
    port: 5002
    command: "MEASURE_CIRCUTOR -get_measurement"
 
+sampling:
+    num_measurements: 10
+    interval: 1
+
 analysis:
   statistical_metrics:
   visualization:

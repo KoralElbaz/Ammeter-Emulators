@@ -34,12 +34,18 @@ def read_current(ammeter_type: str):
         ammeter_type
     )
 
-def read_current_NUM_times(ammeter_type: str, num: int):
+def read_current_NUM_times(ammeter_type: str, num: int, interval: float):
     results = []
     for _ in range(num):
+        start_time = time.time() # Measurement start time
+        
         value = read_current(ammeter_type)
         results.append(value)
-        time.sleep(1)
+        
+        elapsed = time.time() - start_time # Calculating how long the measurement itself took
+        sleep_time = max(0, interval - elapsed) # Calculating how much time remains to wait to maintain a constant frequency
+        
+        time.sleep(sleep_time)
     return results
 
 if __name__ == "__main__":
@@ -50,7 +56,9 @@ if __name__ == "__main__":
 
     # Wait for the servers to start, if you have problem restarting the servers between runs try increasing sleep time.
     time.sleep(5)
-    results = read_current_NUM_times("greenlee", 5)
+    results = read_current_NUM_times("greenlee", 
+                                     config["sampling"]["num_measurements"], 
+                                     config["sampling"]["interval"])
     print("Final greenlee results:", results)
     # request_current_from_ammeter(5002, b'MEASURE_ENTES')  # Request from ENTES Ammeter
     # request_current_from_ammeter(5003, b'MEASURE_CIRCUTOR')  # Request from CIRCUTOR Ammeter
