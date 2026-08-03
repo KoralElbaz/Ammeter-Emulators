@@ -30,7 +30,8 @@ def read_current(ammeter_type: str):
 
     return request_current_from_ammeter(
         ammeter["port"],
-        ammeter["command"].encode()
+        ammeter["command"].encode(),
+        ammeter_type
     )
 
 def read_current_NUM_times(ammeter_type: str, num: int):
@@ -46,9 +47,6 @@ if __name__ == "__main__":
     threading.Thread(target=run_greenlee_emulator, daemon=True).start()
     threading.Thread(target=run_entes_emulator, daemon=True).start()
     threading.Thread(target=run_circutor_emulator, daemon=True).start()
-
-    # This section is commented out because it shouldn't work.
-    # Read the README.md file as well as the source code if you need, and fix the problem.
 
     # Wait for the servers to start, if you have problem restarting the servers between runs try increasing sleep time.
     time.sleep(5)

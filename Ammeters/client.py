@@ -1,15 +1,29 @@
 from socket import socket, AF_INET, SOCK_STREAM
+from datetime import datetime
 
-
-def request_current_from_ammeter(port: int, command: bytes):
+def request_current_from_ammeter(port: int, command: bytes, device_name: str):
     with socket(AF_INET, SOCK_STREAM) as s:
         s.connect(('localhost', port))
         s.sendall(command)
         data = s.recv(1024)
+        
         if data:
-            value = data.decode('utf-8')
-            print(f"Received current measurement from port {port}: {value} A")
-            return float(value)
+            value = float(data.decode('utf-8'))
+
+            result = {
+                "device": device_name,
+                "current": round(value, 3),
+                "unit": "A",
+                "timestamp":  datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            }
+
+            print(
+                f"[{result['timestamp']}] "
+                f"{result['device']} | "
+                f"{result['current']} {result['unit']}"
+            )
+            return result
+        
         else:
             print("No data received.")
             return None
