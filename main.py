@@ -43,6 +43,7 @@ if __name__ == "__main__":
 
     analyze_multiple = MultiDeviceAnalyzer(ammeters, config["sampling"]["num_measurements"], config["sampling"]["interval"])
     results = analyze_multiple.analyze()
+    print(f"results:::  {results}")
 
     print("\n--- Analysis per device ---")
     for device, data in results.items():
@@ -55,7 +56,9 @@ if __name__ == "__main__":
 
     print("\n--- Stability Ranking ---")
     for i, (device, data) in enumerate(ranking, 1):
-        print(f"{i}. {device} (stdev={round(data['stdev'], 4)})")
+        print(f"{i}. {device} (stdev={round(data['summary']['stdev'], 4)})")
     
-
+    analyze_multiple.visualize_all(results)
+        
+    
     pass
