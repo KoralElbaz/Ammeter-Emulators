@@ -14,7 +14,9 @@ class MultiDeviceAnalyzer:
             try:
                 measurements = service.read_current_NUM_times(ammeter, self.num_samples,self.interval)
                 analyzer = MeasurementAnalyzer(measurements)
-                results[ammeter] = analyzer.summary()
+                summary = analyzer.summary()
+                summary["stability"] = analyzer.evaluate_stability(summary)
+                results[ammeter] = summary
             except Exception as e:
                 print(f"Failed analyzing {ammeter}: {e}")
         return results

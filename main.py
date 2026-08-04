@@ -46,7 +46,10 @@ if __name__ == "__main__":
 
     print("\n--- Analysis per device ---")
     for device, data in results.items():
-        print(device, {k: round(v, 4) for k, v in data.items()})
+        print(device, {
+        k: round(v, 4) if isinstance(v, (int, float)) else v
+        for k, v in data.items()
+        })
 
     ranking = analyze_multiple.rank_by_stability(results)
 
@@ -54,16 +57,5 @@ if __name__ == "__main__":
     for i, (device, data) in enumerate(ranking, 1):
         print(f"{i}. {device} (stdev={round(data['stdev'], 4)})")
     
-    
-    # service = SamplingService()
-    # results = service.read_current_NUM_times("greenlee", 
-    #                                  config["sampling"]["num_measurements"], 
-    #                                  config["sampling"]["interval"])
-    # analyzer = MeasurementAnalyzer(results)
-    # analysis = analyzer.summary()
-    # for k, v in analysis.items():
-    #     print(f"{k}: {round(v, 4)}")
-    # request_current_from_ammeter(5002, b'MEASURE_ENTES')  # Request from ENTES Ammeter
-    # request_current_from_ammeter(5003, b'MEASURE_CIRCUTOR')  # Request from CIRCUTOR Ammeter
 
     pass

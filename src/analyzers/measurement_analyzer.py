@@ -39,3 +39,15 @@ class MeasurementAnalyzer:
             "min": self.min(),
             "max": self.max()
         }
+        
+    def evaluate_stability(self,summary):
+        stdev = summary["stdev"]
+
+        if stdev < 0.05:
+            return "Excellent"
+        elif stdev < 0.2:
+            return "Good"
+        elif stdev < 1:
+            return "Fair"
+        else:
+            return "Unstable"
