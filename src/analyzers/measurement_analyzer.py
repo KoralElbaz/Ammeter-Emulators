@@ -1,9 +1,8 @@
 class MeasurementAnalyzer:
     def __init__(self, measurements: list):
-        self.currents = measurements
-        
-        if not self.currents:
+        if not measurements:
             raise ValueError("No valid measurements")
+        self.currents = measurements
 
     def mean(self):
         return sum(self.currents) / len(self.currents)
@@ -29,9 +28,6 @@ class MeasurementAnalyzer:
         return max(self.currents)
 
     def summary(self):
-        if not self.currents:
-            raise ValueError("No valid measurements")
-    
         return {
             "mean": self.mean(),
             "median": self.median(),
@@ -39,8 +35,8 @@ class MeasurementAnalyzer:
             "min": self.min(),
             "max": self.max()
         }
-        
-    def evaluate_stability(self,summary):
+
+    def evaluate_stability(self, summary):
         stdev = summary["stdev"]
 
         if stdev < 0.05:

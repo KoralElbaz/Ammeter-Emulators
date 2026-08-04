@@ -1,0 +1,40 @@
+{
+    "run_id": "2026-08-04_19-45-34",
+    "metadata": {
+        "devices": [
+            "greenlee",
+            "entes",
+            "circutor"
+        ],
+        "num_samples": 3,
+        "interval": 1
+    },
+    "results": {
+        "entes": {
+            "mean": 84.76066666666667,
+            "median": 55.969,
+            "stdev": 52.27268402223947,
+            "min": 40.191,
+            "max": 158.122,
+            "stability": "Unstable",
+            "measurements": [
+                40.191,
+                158.122,
+                55.969
+            ]
+        },
+        "circutor": {
+            "mean": 0.034,
+            "median": 0.03,
+            "stdev": 0.01818424226264781,
+            "min": 0.014,
+            "max": 0.058,
+            "stability": "Excellent",
+            "measurements": [
+                0.03,
+                0.014,
+                0.058
+            ]
+        }
+    }
+}

@@ -10,24 +10,29 @@ class MultiDeviceAnalyzer:
 
     def analyze(self):
         results = {}
-        service = SamplingService()
 
         for ammeter in self.ammeter_types:
             try:
-                measurements = service.read_current_NUM_times(
-                    ammeter,
-                    self.num_samples,
-                    self.interval
+                # ✅ יוצרים service לכל מכשיר
+                service = SamplingService(
+                    ammeter_type=ammeter,
+                    samples=self.num_samples,
+                    delay=self.interval
                 )
 
+                # ✅ אוספים דגימות
+                measurements = service.collect_samples()
+
+                # ✅ ניתוח
                 analyzer = MeasurementAnalyzer(measurements)
                 summary = analyzer.summary()
+
+                # ⚠️ לוודא שיש stdev!
                 summary["stability"] = analyzer.evaluate_stability(summary)
 
-                results[ammeter] = {
-                    "summary": summary,
-                    "measurements": measurements
-                }
+                summary["measurements"] = measurements
+
+                results[ammeter] = summary
 
             except Exception as e:
                 print(f"Failed analyzing {ammeter}: {e}")
@@ -35,23 +40,10 @@ class MultiDeviceAnalyzer:
         return results
 
     def rank_by_stability(self, results):
-        return sorted(
-            results.items(),
-            key=lambda x: x[1]["summary"]["stdev"]
-        )
-
-    def print_chart(self, measurements, device_name):
-        if not measurements:
-            print(f"No data for {device_name}")
-            return
-
-        max_val = max(measurements)
-
-        print(f"\n--- Visualization for {device_name} ---")
-        for i, val in enumerate(measurements):
-            bar = "#" * int((val / max_val) * 50)
-            print(f"{i:02d}: {bar} ({round(val, 4)})")
+        return sorted(results.items(), key=lambda x: x[1]["stdev"])
 
     def visualize_all(self, results):
+        from src.visualization.chart_printer import print_chart
+
         for device, data in results.items():
-            self.print_chart(data["measurements"], device)
+            print_chart(data["measurements"], device)

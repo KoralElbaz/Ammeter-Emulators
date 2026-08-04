@@ -1,23 +1,37 @@
 import time
-
+from typing import List
 from Ammeters.client import read_current
 
 
 class SamplingService:
-    def read_current_NUM_times(self, ammeter_type: str, num: int, interval: float):
-        results = []
-        for _ in range(num):
-            start_time = time.time() # Measurement start time
-            
-            value = read_current(ammeter_type)
-            if value is not None:  
-                results.append(value["current"])
-            else:
-                print(f"⚠️ Failed reading from {ammeter_type}")
-            
-            elapsed = time.time() - start_time # Calculating how long the measurement itself took
-            sleep_time = max(0, interval - elapsed) # Calculating how much time remains to wait to maintain a constant frequency
-            
-            time.sleep(sleep_time)
-        return results
-    
+    def __init__(self, ammeter_type: str, samples: int = 10, delay: float = 0.5):
+        """
+        :param ammeter_type: (greenlee / entes / circutor)
+        :param samples: כמה דגימות לקחת
+        :param delay: זמן בין דגימות (בשניות)
+        """
+        self.ammeter_type = ammeter_type
+        self.samples = samples
+        self.delay = delay
+
+    def read_current_value(self) -> float:
+        result = read_current(self.ammeter_type)
+
+        if result is None:
+            raise Exception(f"Failed to read from {self.ammeter_type}")
+
+        return result["current"]
+
+    def collect_samples(self) -> List[float]:
+        values = []
+
+        for i in range(self.samples):
+            try:
+                value = self.read_current_value()
+                values.append(value)
+            except Exception as e:
+                print(f"Error reading sample {i}: {e}")
+
+            time.sleep(self.delay)
+
+        return values
