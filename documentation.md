@@ -14,7 +14,42 @@
 ---
 
 ## 🏗️ 2. Architecture
-
+TEST_QA_EXPANDED/
+│
+├── Ammeters/                     # תקשורת עם מכשירים (Hardware Layer)
+│   ├── base_ammeter.py           # מחלקת בסיס לכל אמפרמטר
+│   ├── client.py                 # ניהול תקשורת socket
+│   ├── Circutor_Ammeter.py       # מימוש מכשיר
+│   ├── Entes_Ammeter.py          # מימוש מכשיר
+│   └── Greenlee_Ammeter.py       # מימוש מכשיר
+│
+├── config/                       # קונפיגורציה
+│   └── config.yaml
+│
+├── src/
+│   │
+│   ├── analyzers/                # לוגיקת ניתוח נתונים
+│   │   ├── measurement_analyzer.py
+│   │   └── multi_device_analyzer.py
+│   │
+│   ├── utils/                    # שירותים ותשתיות
+│   │   ├── sampling_service.py   # איסוף דגימות
+│   │   ├── config.py             # טעינת קונפיג
+│   │   ├── logger.py             # לוגים
+│   │   └── Utils.py
+│   │
+│   ├── visualization/            # הצגת נתונים
+│   │   └── chart_printer.py
+│   │
+│   ├── results/                  # ניהול תוצאות (Requirement 4)
+│   │   └── result_manager.py
+│   
+│
+├── results/                      # תוצאות ריצה (JSON files)
+│   ├── 2026-08-04_19-45-34.json
+│   └── 2026-08-04_20-00-21.json
+│
+├── main.py                       # נקודת כניסה למערכת
 
 ## 🧩 3. Core Components
 
