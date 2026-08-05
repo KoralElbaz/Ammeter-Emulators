@@ -14,6 +14,9 @@
 ---
 
 ## 🏗️ 2. Architecture
+## 📂 Project Structure
+
+```bash
 TEST_QA_EXPANDED/
 │
 ├── Ammeters/                     # תקשורת עם מכשירים (Hardware Layer)
@@ -43,14 +46,13 @@ TEST_QA_EXPANDED/
 │   │
 │   ├── results/                  # ניהול תוצאות (Requirement 4)
 │   │   └── result_manager.py
-│   
 │
 ├── results/                      # תוצאות ריצה (JSON files)
 │   ├── 2026-08-04_19-45-34.json
 │   └── 2026-08-04_20-00-21.json
 │
 ├── main.py                       # נקודת כניסה למערכת
-
+```
 ## 🧩 3. Core Components
 
 ### 🔌 3.1 Client (Socket Communication)
